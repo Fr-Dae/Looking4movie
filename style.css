@@ -12,7 +12,8 @@ header {
     align-items: center;
     background-color: #a88f2b;
     color: white;
-    padding: 2em; 
+    padding: 1em;
+    flex-wrap: wrap; /* Ajouter pour améliorer la flexibilité */
 }
 
 main {
@@ -22,6 +23,7 @@ main {
     flex-direction: column;
     width: auto;
     margin: 0 auto;
+    padding: 1em; /* Ajouter un padding pour éviter que le contenu soit collé au bord */
 }
 
 h1 {
@@ -56,6 +58,7 @@ input[type="text"] {
     padding-left: 20px;
     border-radius: 25px 0 0 25px;
     font-size: 15px;
+    flex-grow: 1; /* Permet à l'input de grandir */
 }
 
 button {
@@ -75,12 +78,12 @@ button:hover {
     flex-wrap: wrap;
     justify-content: space-around;
     margin: 0 auto;
-    padding: 50px;
+    padding: 20px;
     flex-direction: row;
     align-items: flex-start;
-    width: 960px;
+    width: 100%;
+    max-width: 960px;
 }
-
 
 .film-item {
     flex-basis: 20%;
@@ -90,8 +93,9 @@ button:hover {
     overflow: hidden;
     background-color: white;
     font-size: 15px;
-    width: 185px;
-    height: 425px; 
+    width: 100%;
+    max-width: 185px;
+    height: auto;
 }
 
 .film-item img {
@@ -111,41 +115,12 @@ button:hover {
     padding: 20px;
 }
 
-/* Media Query pour les écrans de PC (largeur de 960px et plus) */
-/* @media (min-width: 960px) {
-    header {
-        flex-direction: row; 
-        justify-content: space-around;
-        padding: 30px; 
-    }
-
-    #search-container {
-        width: 325px;
-        margin-bottom: 0;
-    }
-
-    #results {
-        justify-content: space-around; 
-        padding: 50px; 
-        width: auto; 
-        max-width: 1200px; 
-        margin: 50px auto; 
-    }
-
-    .film-item {
-        width: 185px;
-        height: 490px; 
-        margin: 10px; 
-        padding: 20px;
-    }
-} */
-
 /* Media Query pour les écrans de téléphone (largeur jusqu'à 600px) */
 @media (max-width: 600px) {
     header {
-        flex-direction: column; 
-        padding: 15px; 
-        width: 570px;
+        flex-direction: column;
+        padding: 15px;
+        width: 100%;
     }
 
     .tea {
@@ -153,23 +128,23 @@ button:hover {
     }
 
     h1 {
-        font-size: 3em; 
-        text-align: center; 
-        margin-bottom: 20px; 
+        font-size: 3em;
+        text-align: center;
+        margin-bottom: 20px;
     }
 
     #search-container {
-        width: 90%; 
-        margin: 0 auto 20px; 
+        width: 90%;
+        margin: 0 auto 20px;
         justify-content: center;
     }
 
     input[type="text"], button {
-        height: 40px; 
+        height: 40px;
     }
 
     #results {
-        padding: 10px; 
+        padding: 10px;
         flex-direction: column;
         align-content: center;
     }
@@ -184,6 +159,54 @@ button:hover {
     }
 
     #details {
-        padding: 10px; 
+        padding: 10px;
+    }
+}
+
+/* Media Query pour les tablettes (largeur jusqu'à 900px) */
+@media (max-width: 900px) {
+    header {
+        flex-direction: column;
+        padding: 15px;
+        width: 100%;
+    }
+
+    .tea {
+        font-size: 30px;
+    }
+
+    h1 {
+        font-size: 2.5em;
+        text-align: center;
+        margin-bottom: 15px;
+    }
+
+    #search-container {
+        width: 80%;
+        margin: 0 auto 15px;
+        justify-content: center;
+    }
+
+    input[type="text"], button {
+        height: 45px;
+    }
+
+    #results {
+        padding: 15px;
+        flex-direction: column;
+        align-content: center;
+    }
+
+    .film-item {
+        flex-basis: 45%;
+        margin-bottom: 15px;
+    }
+
+    .film-item img {
+        height: auto;
+    }
+
+    #details {
+        padding: 15px;
     }
 }
