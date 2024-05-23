@@ -1,0 +1,326 @@
+Dans le code fourni, voici quelques axes d'amélioration potentiels :
+
+    Utilisation de Constantes pour l'API Key : Il serait préférable de stocker la clé API dans une constante plutôt que de la hardcoder dans le code. Cela rendrait le code plus modulaire et plus facile à maintenir.
+
+// Définir la clé API en tant que constante
+const API_KEY = '68891af9';
+
+// Utiliser la constante dans la fonction searchMovies
+function searchMovies(searchTerm) {
+  var url = `http://www.omdbapi.com/?s=${encodeURIComponent(searchTerm)}&apikey=${API_KEY}`;
+// ...
+}
+
+
+
+    Gestion des Erreurs : Le code actuel capture les erreurs dans les requêtes fetch, mais il pourrait être amélioré en ajoutant une gestion plus robuste des erreurs, comme des messages d'erreur plus descriptifs pour l'utilisateur.
+
+// Ajouter une gestion des erreurs plus robuste
+fetch(url)
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Réponse du serveur non valide');
+    }
+    return response.json();
+  })
+  .then(data => {
+// Traitement des données
+  })
+  .catch(error => {
+    console.error('Erreur lors de la recherche de films:', error);
+    // Afficher un message d'erreur à l'utilisateur
+    document.getElementById('results').innerHTML = '<p>Une erreur s\'est produite lors de la recherche de films.</p>';
+  });
+
+
+
+
+    Optimisation de la Recherche : Actuellement, la recherche est déclenchée à la fois par un clic sur un bouton et par l'appui sur la touche "Entrée". Il serait plus cohérent de centraliser cette logique dans une seule fonction pour éviter la redondance de code.
+
+// Centraliser la logique de recherche dans une seule fonction
+function handleSearch() {
+  var searchTerm = document.getElementById('searchBox').value;
+  searchMovies(searchTerm);
+}
+
+// Utiliser cette fonction pour gérer à la fois le clic sur le bouton et la touche "Entrée"
+document.getElementById('searchButton').addEventListener('click', handleSearch);
+document.getElementById('searchBox').addEventListener('keypress', function(event) {
+  if (event.key === 'Enter') {
+    event.preventDefault();
+    handleSearch();
+  }
+});
+
+
+    Sécurité des Requêtes : L'URL de l'API est construite en interpolant directement la valeur du terme de recherche dans l'URL. Il serait plus sûr d'utiliser des fonctions de manipulation d'URL pour éviter les attaques par injection.
+
+// Utiliser la fonction encodeURIComponent pour sécuriser les paramètres de l'URL
+var url = `http://www.omdbapi.com/?s=${encodeURIComponent(searchTerm)}&apikey=${API_KEY}`;
+
+
+    Performance : Si le nombre de résultats de recherche devient important, il peut être nécessaire de mettre en œuvre une pagination pour améliorer les performances de chargement et d'affichage des résultats.
+// Implémenter la pagination pour limiter le nombre de résultats affichés à la fois
+// et améliorer les performances de chargement et d'affichage
+// Cette implémentation n'est pas fournie dans le code initial, elle nécessiterait donc une modification et une extension du code actuel.
+
+
+
+## Css
+
+/* Utilisation de variables CSS pour réutiliser les valeurs répétitives */
+:root {
+  --primary-color: #333;
+  --secondary-color: #f4f4f4;
+  --accent-color: #a88f2b;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--secondary-color);
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: var(--accent-color);
+    color: white;
+    padding: 1em;
+    flex-wrap: wrap; /* Ajouter pour améliorer la flexibilité */
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: auto;
+    margin: 0 auto;
+    padding: 1em; /* Ajouter un padding pour éviter que le contenu soit collé au bord */
+}
+
+h1 {
+    margin: 0;
+    font-size: 2vw;
+    display: block;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+/* Simplification des sélecteurs pour les liens */
+.tea a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* conteneur searchbar */
+#search-container {
+    display: flex;
+    border-radius: 25px;
+    overflow: hidden;
+    width: 325px;
+    height: 50px;
+}
+
+/* input et bouton à côté l'un de l'autre */
+input[type="text"], button {
+    margin: 0;
+    border: none;
+    height: 50px;
+}
+
+input[type="text"] {
+    padding-left: 20px;
+    border-radius: 25px 0 0 25px;
+    font-size: 15px;
+    flex-grow: 1; /* Permet à l'input de grandir */
+}
+
+button {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0 20px;
+    border-radius: 0 25px 25px 0;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #4e4d4d;
+}
+
+#results {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin: 0 auto;
+    padding: 20px;
+    flex-direction: row;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 960px;
+}
+
+.film-item {
+    flex-basis: 20%;
+    margin: 10px;
+    box-shadow: 10px 10px 5px rgba(0,0,0,0.2);
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: white;
+    font-size: 15px;
+    width: 100%;
+    max-width: 185px;
+    height: auto;
+}
+
+.film-item img {
+    max-width: 100%;
+    max-height: 100%;
+    height: auto;
+    display: block;
+}
+
+.film-item:hover {
+    background-color: #f9f9f9;
+}
+
+#details {
+    background-color: white;
+    border: 1px solid #ddd;
+    padding: 20px;
+}
+
+/* Media Query pour les écrans de téléphone (largeur jusqu'à 600px) */
+@media (max-width: 600px) {
+    header {
+        flex-direction: column;
+        padding: 15px;
+        width: 100%;
+    }
+
+    .tea {
+        font-size: 35px;
+    }
+
+    h1 {
+        font-size: 3em;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    #search-container {
+        width: 90%;
+        margin: 0 auto 20px;
+        justify-content: center;
+    }
+
+    input[type="text"], button {
+        height: 40px;
+    }
+
+    #results {
+        padding: 10px;
+        flex-direction: column;
+        align-content: center;
+    }
+
+    .film-item {
+        flex-basis: 100%;
+        margin-bottom: 20px;
+    }
+
+    .film-item img {
+        height: auto;
+    }
+
+    #details {
+        padding: 10px;
+    }
+}
+
+/* Media Query pour les tablettes (largeur jusqu'à 900px) */
+@media (max-width: 900px) {
+    header {
+        flex-direction: column;
+        padding: 15px;
+        width: 100%;
+    }
+
+    .tea {
+        font-size: 30px;
+    }
+
+    h1 {
+        font-size: 2.5em;
+        text-align: center;
+        margin-bottom: 15px;
+    }
+
+    #search-container {
+        width: 80%;
+        margin: 0 auto 15px;
+        justify-content: center;
+    }
+
+    input[type="text"], button {
+        height: 45px;
+    }
+
+    #results {
+        padding: 15px;
+        flex-direction: column;
+        align-content: center;
+    }
+
+    .film-item {
+        flex-basis: 45%;
+        margin-bottom: 15px;
+    }
+
+    .film-item img {
+        height: auto;
+    }
+
+    #details {
+        padding: 15px;
+    }
+}
+
+
+# Changelog pour style.css
+
+## [1.0.0] - 2024-05-25
+### Ajouté
+- Définition des variables CSS pour les couleurs primaires, secondaires et d'accentuation.
+- Utilisation des variables CSS dans tout le fichier pour une gestion plus efficace des couleurs.
+- Simplification des sélecteurs pour les liens dans le header.
+
+### Modifié
+- Réorganisation des Media Queries pour une meilleure lisibilité et maintenance du code.
+- Simplification des sélecteurs pour les liens dans le header.
+
+### Corrigé
+- Aucune correction apportée dans cette version.
+
+## [0.9.0] - 2024-05-24
+### Ajouté
+- Ajout de commentaires pour expliquer certaines parties du CSS.
+- Optimisation des Media Queries pour les écrans de téléphone et les tablettes.
+
+### Modifié
+- Réorganisation des règles CSS pour une meilleure cohérence et lisibilité.
+
+### Corrigé
+- Aucune correction apportée dans cette version.
+
+## [0.8.0] - 2024-05-23
+### Ajouté
+- Aucun ajout dans cette version.
+
+### Modifié
+- Réécriture du fichier style.css en intégrant les améliorations suggérées.
+
+### Corrigé
+- Correction de la propriété de couleur du bouton pour qu'elle utilise la variable CSS de la couleur primaire.
